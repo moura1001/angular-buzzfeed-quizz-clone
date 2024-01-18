@@ -61,18 +61,20 @@ export class QuizzComponent implements OnInit {
 
   async checkResult(anwsers:string[]){
 
-    const result = anwsers.reduce((previous, current, i, arr)=>{
-        if(
-          arr.filter(item => item === previous).length >
-          arr.filter(item => item === current).length
-        ){
-          return previous
-        }else{
-          return current
-        }
-    })
+    const freq = new Map<string, number>()
+    let maxFreq = 0
+    let maxFreqChar = ''
 
-    return result
+    for(let c of anwsers) {
+      const currentFreq = freq.get(c) ? (freq.get(c) as number) + 1 : 1
+      freq.set(c, currentFreq)
+      if(currentFreq > maxFreq){
+        maxFreq = currentFreq
+        maxFreqChar = c
+      }
+    }
+
+    return maxFreqChar
   }
 
 }
